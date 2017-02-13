@@ -14,5 +14,5 @@
     },
     "extra": {
 		"installer-class": "Zhiyi\\Component\\ZhiyiPlus\\PlusComponentIm\\Installer\\Installer"
-	},
+	}
 }
