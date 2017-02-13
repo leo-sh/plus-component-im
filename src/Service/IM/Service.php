@@ -1,41 +1,11 @@
 <?php
 
-namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models;
+namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Service;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response as ImResponse;
-use Illuminate\Database\Eloquent\Model;
 
-class ImUser extends Model
+class ImService
 {
-    /**
-     * 定义表名.
-     *
-     * @var string
-     */
-    protected $table = 'im_users';
-
-    /**
-     * 定义允许更新的字段.
-     *
-     * @var array
-     */
-    protected $fillable = ['user_id', 'username', 'im_password', 'is_disabled'];
-
-    /**
-     * 定义隐藏的字段.
-     *
-     * @var array
-     */
-    protected $hidden = ['id', 'is_disabled', 'deleted_at', 'username', 'created_at', 'updated_at'];
-
-    /**
-     * 将字段调整为日期属性.
-     *
-     * @var array
-     */
-    protected $dates = ['deleted_at'];
-
     /**
      * 是否开启对IM聊天服务器请求的调试功能.
      *
@@ -56,16 +26,22 @@ class ImUser extends Model
      * @var array
      */
     public $service_urls = [
-        'base_url' => 'http://192.168.10.222:9900',
+        'base_url' => '',
         'apis' => [
             'users' => '/users',
             'conversations' => '/conversations',
-            'member' => '/conversations/member',
+            'member' => '/conversations/{cid}/members',
             'limited' => '/conversations/{cid}/limited-members',
             'message' => '/conversations/{cid}/messages',
         ],
     ];
 
+    /**
+     * 定义请求链接中拼接的参数.
+     *
+     * @var string
+     */
+    protected $sub_request_url = '';
     /**
      * 请求的类型别名定义.
      *
@@ -74,8 +50,9 @@ class ImUser extends Model
     protected $response_type = [
         'post' => ['post', 'add', 'init'],
         'put' => ['put', 'update', 'save'],
-        'delete' => ['delete', 'del'],
+        'delete' => ['delete', 'del', 'remove'],
         'get' => ['get', 'select'],
+        'patch' => ['patch'],
     ];
 
     /**
@@ -109,22 +86,20 @@ class ImUser extends Model
      */
     protected $requset_method = '';
 
-    /**
-     * 当前操作的用户uid.
-     *
-     * @var int
-     */
-    protected $user_id = 0;
+    public function __construct($config = [])
+    {
+        $this->service_urls['base_url'] = $config['base_url'] ?? '';
+    }
 
     /**
-     * 重写__call方法.
+     * __call方法.
      *
      * @author martinsun <syh@sunyonghong.com>
      * @datetime 2017-01-16T09:40:04+080
      *
      * @version  1.0
      *
-     * @param string $method 请求方法
+     * @param string $method 访问方法
      * @param array  $params 参数信息
      *
      * @return 执行结果
@@ -133,30 +108,39 @@ class ImUser extends Model
     {
         $type_alias = '';
         $method = strtolower($method);
-        if (($request_mod = substr($method, 0, 5)) == 'users') {
-            $type_alias = self::parseName(substr($method, 5))[0];
-            $this->request_mod = $request_mod;
-        } elseif (($request_mod = substr($method, 0, 13)) == 'conversations') {
-            $type_alias = self::parseName(substr($method, 13))[0];
-            $this->request_mod = $request_mod;
-        } else {
-            return parent::__call($method, $params);
+        $apiList = array_keys($this->service_urls['apis']);
+        foreach ($apiList as $api) {
+            if (preg_match('/^'.$api.'\w+/', $method)) {
+                $this->request_mod = $api;
+                $type_alias = self::parseName(substr($method, strlen($api)))[0];
+                break;
+            }
+        }
+        if (!$this->request_mod) {
+            $this->error = '该聊天服务不可用';
+
+            return false;
+        }
+        //请求子参数
+        if (isset($params[1])) {
+            $this->sub_request_url = $params[1];
         }
         // 调用本类中的方法,获取请求方法
         $type_alias = strtolower($type_alias);
         $this->requset_method = $this->getRequestType($type_alias);
 
-        // 定义类参数
+        // 请求参数赋值
         $this->params = $params[0];
-        $this->user_id = $this->params['uid'] ?? 0;
 
         // 自定义方法是否存在,存在则执行并返回
         $fun = $this->request_mod.'Do'.ucfirst($this->requset_method);
         if (method_exists($this, $fun)) {
             return $this->$fun();
         }
+
         // 直接调用请求IM服务器
         $res = $this->request();
+
         // 是否定义后置方法,已定义则执行并返回
         $after_fun = '_after_'.$fun;
         if (method_exists($this, $after_fun)) {
@@ -221,6 +205,7 @@ class ImUser extends Model
         if (!$url) {
             return '';
         } else {
+            $url .= $this->sub_request_url;
             // 待替换字符串匹配
             preg_match_all('/\{(\w+)\}/', $url, $matches);
             $replace = $matches[1];
@@ -253,143 +238,6 @@ class ImUser extends Model
     }
 
     /**
-     * 初始化IM用户.
-     *
-     * @author martinsun <syh@sunyonghong.com>
-     * @datetime 2017-01-09T09:52:07+080
-     *
-     * @version  1.0
-     *
-     * @param int $user_id 本地用户id
-     *
-     * @return array IM用户信息
-     */
-    public function usersDoPost()
-    {
-        $user_id = $this->params['uid'] ?? 0;
-        if (!$user_id || !is_numeric($user_id)) {
-            $this->error = '参数非法';
-
-            return false;
-        }
-        // 检测是否已经存在信息
-        if ($info = $this->where('user_id', $user_id)->first()) {
-            return $info;
-        }
-
-        // 发送请求
-        $res = $this->request();
-
-        // 获取返回数据
-        $res_data = $res->getBody();
-
-        //获取执行结果
-        $res_data = json_decode($res_data->getContents(), true);
-        if ($res->getStatusCode() == 201 || $res_data['code'] == 201) {
-            //添加成功,保存记录
-            $imUser = [
-                'user_id' => $user_id,
-                'username' => $this->params['name'] ?? '',
-                'im_password' => $res_data['data']['token'],
-                'is_disabled' => 0,
-            ];
-
-            return $this->create($imUser);
-        } else {
-            // 添加失败,返回服务器错误信息
-            $this->error = $res_data['msg'];
-
-            return false;
-        }
-    }
-
-    /**
-     * 删除用户操作后置.
-     *
-     * @author martinsun <syh@sunyonghong.com>
-     * @datetime 2017-01-18T09:33:55+080
-     *
-     * @version  1.0
-     *
-     * @param ImResponse $res IM聊天服务器返回的信息
-     *
-     * @return array
-     */
-    private function _after_usersDoDelete(ImResponse $res)
-    {
-        // 如果聊天服务器删除成功
-        if ($res->getStatusCode() == 204) {
-            // 删除本地的聊天用户信息
-            $this->where('user_id', $this->user_id)->delete();
-        }
-
-        return $res;
-    }
-
-    /**
-     * 创建会话.
-     *
-     * @author martinsun <syh@sunyonghong.com>
-     * @datetime 2017-01-11T17:59:37+080
-     *
-     * @version  1.0
-     *
-     * @param ImResponse $res IM聊天服务器返回的信息
-     *
-     * @return array
-     */
-    public function _after_conversationsDoPost(ImResponse $res)
-    {
-        // 获取返回数据
-        $res_data = $res->getBody();
-
-        //获取执行结果
-        $res_data = json_decode($res_data->getContents(), true);
-        dump($res_data);
-        exit;
-        if ($res->getStatusCode() == 201 || $res_data['code'] == 201) {
-            //添加成功,保存记录
-            $conversations = [
-                'user_id' => $this->params['uid'] ?? 0,
-                'cid' => $res_data['data']['cid'],
-                'is_disabled' => 0,
-                'name' => $this->params['name'] ?? '',
-                'pwd' => $this->params['pwd'] ?? '',
-                'uids' => $this->params['uids'] ?? [],
-                'type' => $this->params['type'],
-            ];
-
-            return ImConversation::create($conversations);
-        } else {
-            // 添加失败,返回服务器错误信息
-            $this->error = $res_data['msg'];
-
-            return false;
-        }
-    }
-
-    /**
-     * 获取会话.
-     *
-     * @author martinsun <syh@sunyonghong.com>
-     * @datetime 2017-01-18T18:08:54+080
-     *
-     * @version  1.0
-     *
-     * @return array|bool 如果存在返回会话,不存在返回false
-     */
-    public function conversationsDoGet()
-    {
-        $cid = $this->params['cid'] ?? 0;
-        //获取会话
-        if ($info = ImConversations::where('cid', $cid)->get()) {
-            return $info;
-        }
-
-        return false;
-    }
-
-    /**
      * 检测会话类型.
      *
      * @author martinsun <syh@sunyonghong.com>
@@ -414,11 +262,9 @@ class ImUser extends Model
      *
      * @version  1.0
      *
-     * @param bool $get_body 是否获取数据信息
-     *
-     * @return class,array 如果 $get_body设置为false,返回请求实例对象,否则返回请求结果的body体
+     * @return ClientClass
      */
-    public function request($get_body = false)
+    public function request()
     {
         // 创建请求根地址类
         $client = new Client(['base_uri' => $this->service_urls['base_url']]);
@@ -446,24 +292,48 @@ class ImUser extends Model
             // 采用表单的方式提交数据
             $request_body['form_params'] = $this->params;
         }
+
         // 发送请求
-        $res = $client->request($this->requset_method, $request_url, $request_body);
+        return $client->request($this->requset_method, $request_url, $request_body);
+    }
 
-        // 判断并返回期望得到的执行结果类型
-        if ($get_body === true) {
-            $body = $res->getBody()->getContents();
-            if ($body) {
-                $ret = json_decode($body, true);
-            } else {
-                $ret = [
-                    'code' => $res->getStatusCode(),
-                ];
-            }
-
-            return $ret;
-        } else {
-            return $res;
+    /**
+     * 检测聊天的uids参数是否合法.
+     *
+     * @author martinsun <syh@sunyonghong.com>
+     * @datetime 2017-01-20T14:19:39+080
+     *
+     * @version  1.0
+     *
+     * @param int          $type 聊天会话类型
+     * @param string|array $uids 默认加入聊天的用户uid组
+     *
+     * @return bool 是否合法
+     */
+    public function checkUids(int $type, $uids) : bool
+    {
+        $uids = is_array($uids) ? $uids : array_filter(explode(',', $uids));
+        switch ($type) {
+            case 0:
+                // 私聊 必须包含2个uid
+                if (count($uids) < 2) {
+                    return false;
+                }
+                break;
+            case 1:
+                // 群聊 至少需要一个uid
+                if (count($uids) < 1) {
+                    return false;
+                }
+                break;
+            case 2:
+                // 聊天室 暂时不限制
+                break;
+            default:
+                return false;
         }
+
+        return true;
     }
 
     /**

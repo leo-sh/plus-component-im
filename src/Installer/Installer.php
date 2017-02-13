@@ -1,6 +1,6 @@
 <?php
 
-namespace ZhiyiPlus\PlusComponentIm\Installer;
+namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Installer;
 
 use Closure;
 use Zhiyi\Component\Installer\PlusInstallPlugin\AbstractInstaller;

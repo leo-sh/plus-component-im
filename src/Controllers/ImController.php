@@ -4,9 +4,9 @@ namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Controllers;
 
 use Illuminate\Http\Request;
 use Zhiyi\Plus\Http\Controllers\Controller;
-use Zhiyi\Plus\IM\Service as ImService;
-use Zhiyi\Plus\Models\ImConversation;
-use Zhiyi\Plus\Models\ImUser;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Service\IM\Service as ImService;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImConversation;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImUser;
 use Zhiyi\Plus\Models\User;
 
 class ImController extends Controller
