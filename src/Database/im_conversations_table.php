@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-if (!Schema::hasColumn('im_conversations', 'data')) {
+if (!Schema::hasTable('im_conversations', 'data')) {
     Schema::create('im_conversations', function (Blueprint $table) {
         $table->increments('id')->comment('对话表表ID');
         $table->integer('user_id')->default(0)->comment('创建对话用户UID');

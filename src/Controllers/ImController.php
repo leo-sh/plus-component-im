@@ -45,6 +45,7 @@ class ImController extends Controller
         if (!$data) {
             $ImService = new ImService($this->config);
             $res = $ImService->usersPost(['uid' => $user->id, 'name' => $user->name]);
+            file_put_contents('aa.txt', json_encode($res));
             // 处理返回
             if ($res['code'] == 201) {
                 // 注册成功,保存本地用户

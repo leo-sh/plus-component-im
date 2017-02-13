@@ -50,7 +50,7 @@ class Installer extends AbstractInstaller
      */
     public function getLogo(): string
     {
-        return '';
+        return $this->base_path('/resource/logo.png');
     }
 
     /**
@@ -84,9 +84,9 @@ class Installer extends AbstractInstaller
      */
     public function install(Closure $next)
     {
-        $path = dirname(__FILE__);
+        $path = dirname(__DIR__);
         include_once $path.'/Database/im_conversations_table.php';
-        include_once $path.'/src/Database/im_users_table.php';
+        include_once $path.'/Database/im_users_table.php';
         $next();
     }
 
@@ -105,5 +105,37 @@ class Installer extends AbstractInstaller
         Schema::dropIfExists('im_users');
         Schema::dropIfExists('im_conversations');
         $next();
+    }
+
+    /**
+     * 注册路由.
+     *
+     * @author martinsun <syh@sunyonghong.com>
+     * @datetime 2017-02-13T16:29:18+080
+     *
+     * @version  1.0
+     *
+     * @return
+     */
+    public function router()
+    {
+        return $this->base_path('/routes/api.php');
+    }
+
+    /**
+     * 拼接应用根路径方法.
+     *
+     * @author martinsun <syh@sunyonghong.com>
+     * @datetime 2017-02-13T16:46:37+080
+     *
+     * @version  1.0
+     *
+     * @param string $path 拼接的路径
+     *
+     * @return string 包含应用根路径的目录
+     */
+    private function base_path($path = ''): string
+    {
+        return dirname(dirname(__DIR__)).$path;
     }
 }

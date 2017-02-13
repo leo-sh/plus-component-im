@@ -1,10 +1,10 @@
 <?php
 
-namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Service;
+namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Service\IM;
 
 use GuzzleHttp\Client;
 
-class ImService
+class Service
 {
     /**
      * 是否开启对IM聊天服务器请求的调试功能.
