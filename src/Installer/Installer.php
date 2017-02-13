@@ -6,7 +6,7 @@ use Closure;
 use Zhiyi\Component\Installer\PlusInstallPlugin\AbstractInstaller;
 use Illuminate\Support\Facades\Schema;
 
-class Im extends AbstractInstaller
+class Installer extends AbstractInstaller
 {
     const APP_NAME = 'component-im';
 
@@ -16,9 +16,9 @@ class Im extends AbstractInstaller
      * @author martinsun <syh@sunyonghong.com>
      * @datetime 2017-02-10T15:48:31+080
      *
-     * @version  [version]
+     * @version  1.0
      *
-     * @return string [description]
+     * @return string 名称
      */
     public function getName(): string
     {
@@ -26,12 +26,14 @@ class Im extends AbstractInstaller
     }
 
     /**
-     * Get the component version.
+     * 获取版本.
      *
-     * @return string
+     * @author martinsun <syh@sunyonghong.com>
+     * @datetime 2017-02-13T13:54:28+080
      *
-     * @author Seven Du <shiweidu@outlook.com>
-     * @homepage http://medz.cn
+     * @version  1.0
+     *
+     * @return string 版本号
      */
     public function getVersion(): string
     {
@@ -39,55 +41,46 @@ class Im extends AbstractInstaller
     }
 
     /**
-     * Get The component developer author info.
+     * Get the component logo.
      *
-     * @return array
+     * @return string
      *
      * @author Seven Du <shiweidu@outlook.com>
      * @homepage http://medz.cn
+     */
+    public function getLogo(): string
+    {
+        return '';
+    }
+
+    /**
+     * 获取作者信息.
+     *
+     * @author martinsun <syh@sunyonghong.com>
+     * @datetime 2017-02-13T13:55:09+080
+     *
+     * @version  1.0
+     *
+     * @return array 包含的作者信息
      */
     public function getAuthor(): array
     {
         return [
             'name' => 'martinsun',
             'email' => 'syh@sunyonghong.com',
-            'homepage' => 'https://github.com/MartinsunPHP',
+            'homepage' => 'https://github.com/zhiyicx/plus-component-im',
         ];
     }
 
     /**
-     * Get the component route file.
+     * 安装方法.
      *
-     * @return string
+     * @author martinsun <syh@sunyonghong.com>
+     * @datetime 2017-02-13T13:57:35+080
      *
-     * @author Seven Du <shiweidu@outlook.com>
-     * @homepage http://medz.cn
-     */
-    public function router()
-    {
-        return route_path();
-    }
-
-    /**
-     * Get the component resource dir.
-     *
-     * @return string
-     *
-     * @author Seven Du <shiweidu@outlook.com>
-     * @homepage http://medz.cn
-     */
-    public function resource()
-    {
-        return resource_path();
-    }
-
-    /**
-     * Do run the cpmponent install.
+     * @version  1.0
      *
      * @param Closure $next
-     *
-     * @author Seven Du <shiweidu@outlook.com>
-     * @homepage http://medz.cn
      */
     public function install(Closure $next)
     {
@@ -98,22 +91,19 @@ class Im extends AbstractInstaller
     }
 
     /**
-     * Do run update the compoent.
+     * 卸载方法.
+     *
+     * @author martinsun <syh@sunyonghong.com>
+     * @datetime 2017-02-13T13:58:03+080
+     *
+     * @version  1.0
      *
      * @param Closure $next
-     *
-     * @author Seven Du <shiweidu@outlook.com>
-     * @homepage http://medz.cn
      */
-    public function update(Closure $next)
-    {
-        include component_base_path('/src/table_column.php');
-        $next();
-    }
-
     public function uninstall(Closure $next)
     {
-        Schema::dropIfExists('component_example');
+        Schema::dropIfExists('im_users');
+        Schema::dropIfExists('im_conversations');
         $next();
     }
 }

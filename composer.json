@@ -9,8 +9,14 @@
             "email": "syh@sunyonghong.com"
         }
     ],
+	"autoload": {
+		"psr-4": {
+			"Zhiyi\\Component\\ZhiyiPlus\\PlusComponentIm\\": "src/"
+		}
+	},
     "require": {
-        "zhiyicx/plus-install-plugin": "^1.0"
+        "zhiyicx/plus-install-plugin": "^1.0",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "extra": {
 		"installer-class": "Zhiyi\\Component\\ZhiyiPlus\\PlusComponentIm\\Installer\\Installer"
