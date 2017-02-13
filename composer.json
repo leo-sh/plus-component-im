@@ -1,0 +1,18 @@
+{
+    "name": "zhiyicx/plus-component-im",
+    "description": "im for ts+",
+    "type": "plus-component",
+    "license": "Apache-2",
+    "authors": [
+        {
+            "name": "martinsun",
+            "email": "syh@sunyonghong.com"
+        }
+    ],
+    "require": {
+        "zhiyicx/plus-install-plugin": "^1.0"
+    },
+    "extra": {
+		"installer-class": "Zhiyi\\Component\\ZhiyiPlus\\PlusComponentIm\\Installer\\Installer"
+	},
+}
