@@ -18,14 +18,14 @@ class ImConversation extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'cid', 'name', 'pwd', 'type', 'uids', 'created_at'];
+    protected $fillable = ['user_id', 'cid', 'name', 'pwd', 'type', 'created_at'];
 
     /**
      * 定义隐藏的字段.
      *
      * @var array
      */
-    protected $hidden = ['id', 'is_disabled', 'created_at', 'updated_at'];
+    protected $hidden = ['id', 'is_disabled', 'created_at', 'updated_at', 'uids'];
 
     /**
      * 设置保存时将uids字段为逗号分割的字符串.
@@ -40,6 +40,7 @@ class ImConversation extends Model
     public function setUidsAttribute($uids)
     {
         $uids = is_array($uids) ? $uids : explode(',', $uids);
+        $uids = array_unique($uids);
         sort($uids);
         $this->attributes['uids'] = implode(',', $uids);
     }

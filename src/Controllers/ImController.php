@@ -237,7 +237,7 @@ class ImController extends Controller
             // 退出指定对话
             $res = $ImService->memberDelete(['cid' => $cid, 'uids' => $user->id], '/{uids}');
             if ($res['code'] == 204) {
-                $uids = $info->uids;
+                $uids = is_array($info->uids) ? $info->uids : explode(',', $info->uids);
                 // 更新本地保存的状态
                 $removeUid = array_search($user->id, $uids);
                 if ($removeUid !== false) {
