@@ -7,7 +7,7 @@ if (!Schema::hasTable('im_conversations', 'data')) {
     Schema::create('im_conversations', function (Blueprint $table) {
         $table->increments('id')->comment('对话表表ID');
         $table->integer('user_id')->default(0)->comment('创建对话用户UID');
-        $table->bigInteger('cid')->default(0)->comment('对话id');
+        $table->bigInteger('cid')->index()->default(0)->comment('对话id');
         $table->string('name')->dafault(null)->comment('对话名称');
         $table->string('pwd')->default(null)->comment('加入对话密码');
         $table->tinyInteger('is_disabled')->default(0)->comment('是否被禁用,1:是 0:否');
