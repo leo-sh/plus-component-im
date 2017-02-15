@@ -4,8 +4,7 @@ use Zhiyi\Plus\Http\Middleware;
 
 // IM相关接口
 Route::prefix('api/v1/im')
-    ->middleware('api')
-    ->middleware(Middleware\AuthUserToken::class)
+    ->middleware('auth:api')
     ->namespace('Zhiyi\\Component\\ZhiyiPlus\\PlusComponentIm\\Controllers')
     ->group(function () {
         Route::get('/users', 'ImController@getImAccount'); //获取聊天授权账号

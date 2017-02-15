@@ -43,14 +43,16 @@ class Installer extends AbstractInstaller
     /**
      * Get the component logo.
      *
-     * @return string
+     * @author martinsun <syh@sunyonghong.com>
+     * @datetime 2017-02-13T13:54:28+080
      *
-     * @author Seven Du <shiweidu@outlook.com>
-     * @homepage http://medz.cn
+     * @version  1.0
+     *
+     * @return string
      */
     public function getLogo(): string
     {
-        return $this->base_path('/resource/logo.png');
+        return 'zhiyicx/plus-component-im/logo.png';
     }
 
     /**
@@ -72,6 +74,18 @@ class Installer extends AbstractInstaller
         ];
     }
 
+    /**
+     * 指定资源目录.
+     *
+     * @author martinsun <syh@sunyonghong.com>
+     * @datetime 2017-02-13T13:55:09+080
+     *
+     * @version  1.0
+     */
+    public function resource()
+    {
+        return $this->base_path('/resource');
+    }
     /**
      * 安装方法.
      *
@@ -120,6 +134,21 @@ class Installer extends AbstractInstaller
     public function router()
     {
         return $this->base_path('/routes/api.php');
+    }
+
+    /**
+     * update.
+     *
+     * @author martinsun <syh@sunyonghong.com>
+     * @datetime 2017-02-13T13:58:03+080
+     *
+     * @version  1.0
+     *
+     * @param Closure $next
+     */
+    public function update(Closure $next)
+    {
+        $next();
     }
 
     /**

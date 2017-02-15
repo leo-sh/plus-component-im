@@ -81,7 +81,7 @@ class ImController extends Controller
         // 聊天对话类型
         if (!$request->exists('type') || !$ImService->checkConversationType($type)) {
             // 会话类型不支持
-            return $this->returnMessage(3003, $info, 400);
+            return $this->returnMessage(3003, [], 400);
         }
         $user = $request->attributes->get('user');
         // 对话成员处理
@@ -171,7 +171,6 @@ class ImController extends Controller
     public function getConversationList(Request $request)
     {
         $user = $request->attributes->get('user');
-        //$list = ImConversation::where('user_id', $user->id)->orWhereRaw('find_in_set('.$user->id.',uids)')->orderBy('updated_at', 'desc')->get();
         $list = ImConversation::whereRaw('find_in_set('.$user->id.',uids)')->orderBy('updated_at', 'desc')->get();
         if ($list) {
             return $this->returnMessage(0, $list->toArray(), 200);
@@ -372,7 +371,7 @@ class ImController extends Controller
             $user = $request->attributes->get('user');
             if ($user->id != $conversations->user_id) {
                 // 没有权限操作
-                return $this->returnMessage(3010, $conversations, 401);
+                return $this->returnMessage(3010, [], 401);
             }
 
             // 获取指定的限制的成员
@@ -430,10 +429,9 @@ class ImController extends Controller
                 // 返回错误
                 return $this->returnMessage(3008, [], 422);
             }
-        } else {
-            // 返回错误
-            return $this->returnMessage(3007, [], 404);
-        }
+        } 
+		
+		return $this->returnMessage(3007, [], 404);
     }
 
     /**
