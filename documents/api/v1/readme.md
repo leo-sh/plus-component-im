@@ -1,6 +1,6 @@
-# plus-component-im api v1
+# plus-component-im接口文档
 
-- IM聊天接口文档
+* IM聊天接口文档
 	- [聊天授权说明](聊天授权说明.md)
     - [获取聊天授权信息](获取聊天授权.md)
 	- [创建对话](创建对话.md)
