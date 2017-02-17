@@ -35,7 +35,7 @@ class ImController extends Controller
     public function getImAccount(Request $request)
     {
         // 当前登陆的用户
-        $user = $request->attributes->get('user');
+        $user = $request->user();
 
         // 获取本地的IM用户
         $ImUser = new ImUser();
@@ -83,7 +83,7 @@ class ImController extends Controller
             // 会话类型不支持
             return $this->returnMessage(3003, [], 400);
         }
-        $user = $request->attributes->get('user');
+        $user = $request->user();
         // 对话成员处理
         $uids = is_array($request->input('uids')) ? $request->input('uids') : array_filter(explode(',', $request->input('uids')));
         $uids[] = $user->id;
@@ -170,7 +170,7 @@ class ImController extends Controller
      */
     public function getConversationList(Request $request)
     {
-        $user = $request->attributes->get('user');
+        $user = $request->user();
         $list = ImConversation::whereRaw('find_in_set('.$user->id.',uids)')->orderBy('updated_at', 'desc')->get();
         if ($list) {
             return $this->returnMessage(0, $list->toArray(), 200);
@@ -197,7 +197,7 @@ class ImController extends Controller
         if ($info) {
             $ImService = new ImService($this->config);
             // 如果是创建者,直接删除对话
-            $user = $request->attributes->get('user');
+            $user = $request->user();
             if ($user->id == $info->user_id) {
                 $res = $ImService->conversationsDelete(['cids' => $cid]);
                 if ($res['code'] == 204) {
@@ -231,7 +231,7 @@ class ImController extends Controller
     {
         $info = ImConversation::where('cid', $cid)->first();
         if ($info) {
-            $user = $request->attributes->get('user');
+            $user = $request->user();
             $ImService = new ImService($this->config);
             // 退出指定对话
             $res = $ImService->memberDelete(['cid' => $cid, 'uids' => $user->id], '/{uids}');
@@ -271,7 +271,7 @@ class ImController extends Controller
     {
         $info = ImConversation::where('cid', $cid)->first();
         if ($info) {
-            $user = $request->attributes->get('user');
+            $user = $request->user();
             if ($user->id != $info->user_id) {
                 // 没有权限操作
                 return $this->returnMessage(3010, [], 401);
@@ -317,7 +317,7 @@ class ImController extends Controller
         $conversations = ImConversation::where('cid', $cid)->first();
         if ($conversations) {
             // 检测是不是管理员
-            $user = $request->attributes->get('user');
+            $user = $request->user();
             if ($user->id != $conversations->user_id) {
                 // 没有权限操作
                 return $this->returnMessage(3010, [], 401);
@@ -368,7 +368,7 @@ class ImController extends Controller
         $conversations = ImConversation::where('cid', $cid)->first();
         if ($conversations) {
             // 检测是不是管理员
-            $user = $request->attributes->get('user');
+            $user = $request->user();
             if ($user->id != $conversations->user_id) {
                 // 没有权限操作
                 return $this->returnMessage(3010, [], 401);
@@ -409,7 +409,7 @@ class ImController extends Controller
      */
     public function refresh(Request $request)
     {
-        $user = $request->attributes->get('user');
+        $user = $request->user();
         // 获取旧的password
         $old_im_password = $request->input('password');
 
