@@ -3,7 +3,7 @@
 use Zhiyi\Plus\Http\Middleware;
 
 // IM相关接口
-Route::prefix('api/v1/im')
+Route::prefix('/im')
     ->middleware('auth:api')
     ->namespace('Zhiyi\\Component\\ZhiyiPlus\\PlusComponentIm\\Controllers')
     ->group(function () {
