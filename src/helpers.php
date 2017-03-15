@@ -49,7 +49,7 @@ function base_path($path = '')
  */
 function component_name()
 {
-    return 'zhiyicx/plus-component-feed';
+    return 'zhiyicx/plus-component-im';
 }
 /**
  * Get the component route filename.
