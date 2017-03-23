@@ -87,6 +87,7 @@ class ImController extends Controller
         // 对话成员处理
         $uids = is_array($request->input('uids')) ? $request->input('uids') : array_filter(explode(',', $request->input('uids')));
         $uids[] = $user->id;
+        $uids = array_unique($uids);
         sort($uids);
         // 私聊时检测对话是否已经存在
         if (intval($type) === 0) {
