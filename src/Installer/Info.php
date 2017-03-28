@@ -38,7 +38,7 @@ class Info implements ComponentInfoInterface
 	 */
 	public function getIcon(): string
 	{
-		return asset('images/logo.png');
+		return asset('resource/logo.png');
 	}
 
 	/**
