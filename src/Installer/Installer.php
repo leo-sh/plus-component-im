@@ -3,6 +3,7 @@ namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Installer;
 
 use Closure;
 use Zhiyi\Component\Installer\PlusInstallPlugin\AbstractInstaller;
+use Zhiyi\Plus\Models\CommonConfig;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use function  Zhiyi\Component\ZhiyiPlus\PlusComponentIm\{
@@ -36,6 +37,14 @@ class Installer extends AbstractInstaller
 	 */
 	public function install(Closure $next)
 	{
+
+        $config = [
+            'name' => 'serverurl',
+            'namespace' => 'im',
+            'value' => '192.168.2.222:9900',
+        ];
+        CommonConfig::create($config);
+
         $path = dirname(__DIR__);
         include_once $path.'/Database/im_conversations_table.php';
         include_once $path.'/Database/im_users_table.php';
