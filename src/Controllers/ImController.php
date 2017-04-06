@@ -8,17 +8,24 @@ use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Service\IM\Service as ImService;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImConversation;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImUser;
 use Zhiyi\Plus\Models\User;
+use Zhiyi\Plus\Models\CommonConfig;
 
 class ImController extends Controller
 {
+    protected $config;
     /**
-     * 聊天服务器地址
+     * 初始化服务器配置
      *
      * @var string
      */
-    protected $config = [
-        'base_url' => 'http://192.168.2.222:9900',
-    ];
+    public function __construct()
+    {
+        $imserviceconfig = CommonConfig::where('namespace', 'im')->where('name', 'serverurl')->first();
+
+        $this->config = [
+            'base_url' => 'http://'.$imserviceconfig->value,
+        ];
+    }
 
     /**
      * 获取聊天服务账号信息.
