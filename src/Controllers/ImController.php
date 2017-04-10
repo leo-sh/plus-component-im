@@ -98,7 +98,7 @@ class ImController extends Controller
         sort($uids);
         // 私聊时检测对话是否已经存在
         if (intval($type) === 0) {
-            $info = ImConversation::where(['user_id' => $user->id, 'uids' => implode(',', $uids)])->first();
+            $info = ImConversation::where(['type' => 0, 'uids' => implode(',', $uids)])->first();
             if ($info) {
                 $info = $info->toArray();
 
