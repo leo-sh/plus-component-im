@@ -6,6 +6,7 @@ use Zhiyi\Component\Installer\PlusInstallPlugin\AbstractInstaller;
 use Zhiyi\Plus\Models\CommonConfig;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use function app;
 use function  Zhiyi\Component\ZhiyiPlus\PlusComponentIm\{
     base_path as component_base_path,
     includeFile
@@ -13,23 +14,42 @@ use function  Zhiyi\Component\ZhiyiPlus\PlusComponentIm\{
 
 class Installer extends AbstractInstaller
 {
+
+    /*
+     |----------------------------------------------------------
+     | The component config options.
+     |----------------------------------------------------------
+     |
+     | "static::$configNamespace" is component config row namespace.
+     | "static::$configName" is component config row name.
+     | "static::$configDefaultServiceURL" is component config row "value" default value.
+     |
+     */
     protected static $configNamespace = 'im';
     protected static $configName = 'serverurl';
     protected static $configDefaultServiceURL = '127.0.0.1:9900';
 
+    /**
+     * Instance The component Info class.
+     *
+     * @return \Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Installer\Info
+     * @author Seven Du <shiweidu@outlook.com>
+     */
     public function getComponentInfo()
     {
-        return new Info();
+        return app(Info::class);
     }
 
-	/**
-	 * register routers
-	 * @return [type] [description]
-	 */
-	public function router()
-	{
-		return dirname(__DIR__).'/router.php';
-	}
+    /**
+     * Get the component router.
+     *
+     * @return string Router filename
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function router()
+    {
+        return component_base_path('src/router.php');
+    }
 
     /**
      * The component install hook.
@@ -85,7 +105,7 @@ class Installer extends AbstractInstaller
      */
     public function resource()
     {
-        return component_base_path('/resource');
+        return component_base_path('resource');
     }
 
     /**
