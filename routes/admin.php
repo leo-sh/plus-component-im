@@ -2,4 +2,4 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', 'HomeController@show');
+Route::get('/', 'HomeController@show')->name('im:admin');

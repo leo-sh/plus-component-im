@@ -50,5 +50,6 @@ class Info implements ComponentInfoInterface
      */
     public function getAdminEntry()
     {
+        return route('im:admin');
     }
 }
