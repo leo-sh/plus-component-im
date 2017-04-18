@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
-if (!Schema::hasTable('im_users', 'data')) {
+if (! Schema::hasTable('im_users', 'data')) {
     Schema::create('im_users', function (Blueprint $table) {
         $table->engine = 'InnoDB';
         $table->increments('id')->comment('表ID');

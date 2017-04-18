@@ -1,20 +1,16 @@
 <?php
+
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Installer;
 
 use Closure;
-use Zhiyi\Component\Installer\PlusInstallPlugin\AbstractInstaller;
 use Zhiyi\Plus\Models\CommonConfig;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use function app;
-use function  Zhiyi\Component\ZhiyiPlus\PlusComponentIm\{
-    base_path as component_base_path,
-    includeFile
-};
+use Zhiyi\Component\Installer\PlusInstallPlugin\AbstractInstaller;
+use function Zhiyi\Component\ZhiyiPlus\PlusComponentIm\includeFile;
+use function Zhiyi\Component\ZhiyiPlus\PlusComponentIm\base_path as component_base_path;
 
 class Installer extends AbstractInstaller
 {
-
     /*
      |----------------------------------------------------------
      | The component config options.
@@ -74,7 +70,7 @@ class Installer extends AbstractInstaller
         $this->output->success('Installed the IM component successfully.');
     }
 
-	/**
+    /**
      * Do run update the compoent.
      *
      * @param Closure $next
@@ -88,7 +84,7 @@ class Installer extends AbstractInstaller
     }
 
     /**
-     * uninstall component
+     * uninstall component.
      * @param  Closure $next [description]
      * @return [type]        [description]
      */
@@ -100,7 +96,7 @@ class Installer extends AbstractInstaller
     }
 
     /**
-     * setting static files
+     * setting static files.
      * @return [type] [description]
      */
     public function resource()
@@ -131,5 +127,4 @@ class Installer extends AbstractInstaller
             }
         }
     }
-
 }

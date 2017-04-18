@@ -3,18 +3,18 @@
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Controllers;
 
 use Illuminate\Http\Request;
-use Zhiyi\Plus\Http\Controllers\Controller;
-use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Service\IM\Service as ImService;
-use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImConversation;
-use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImUser;
-use Zhiyi\Plus\Models\User;
 use Zhiyi\Plus\Models\CommonConfig;
+use Zhiyi\Plus\Http\Controllers\Controller;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImUser;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImConversation;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Service\IM\Service as ImService;
 
 class ImController extends Controller
 {
     protected $config;
+
     /**
-     * 初始化服务器配置
+     * 初始化服务器配置.
      *
      * @var string
      */
@@ -49,7 +49,7 @@ class ImController extends Controller
         $data = $ImUser->where('user_id', $user->id)->first();
 
         // 本地不存在账号信息
-        if (!$data) {
+        if (! $data) {
             $ImService = new ImService($this->config);
             $res = $ImService->usersPost(['uid' => $user->id, 'name' => $user->name]);
             // 处理返回
@@ -86,7 +86,7 @@ class ImController extends Controller
         $type = intval($request->input('type'));
         $ImService = new ImService($this->config);
         // 聊天对话类型
-        if (!$request->exists('type') || !$ImService->checkConversationType($type)) {
+        if (! $request->exists('type') || ! $ImService->checkConversationType($type)) {
             // 会话类型不支持
             return $this->returnMessage(3003, [], 400);
         }
@@ -117,7 +117,7 @@ class ImController extends Controller
 
         // 检测uids参数是否合法
         $is_void = $ImService->checkUids($conversations['type'], $conversations['uids']);
-        if (!$is_void) {
+        if (! $is_void) {
             // 返回会话参数错误
             return $this->returnMessage(3004, [], 422);
         }
@@ -333,7 +333,7 @@ class ImController extends Controller
 
             // 获取指定的限制的成员
             $uids = is_array($request->input('uids')) ? $request->input('uids') : array_filter(explode(',', $request->input('uids')));
-            if (!$uids) {
+            if (! $uids) {
                 // 为空
                 return $this->returnMessage(3011, [], 422);
             }
@@ -383,7 +383,7 @@ class ImController extends Controller
             }
 
             // 获取指定的限制的成员
-            if (!$uid) {
+            if (! $uid) {
                 // 为空
                 return $this->returnMessage(3011, [], 422);
             }

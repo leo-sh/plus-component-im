@@ -3,7 +3,6 @@
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm;
 
 use function asset as plus_asset;
-use function array_get;
 
 /**
  * Generate an asset path for the application.
@@ -17,6 +16,7 @@ use function array_get;
 function asset($path, $secure = null)
 {
     $path = asset_path($path);
+
     return plus_asset($path, $secure);
 }
 
@@ -64,7 +64,7 @@ function component_name()
  * @param string $filename file path
  * @return bool
  * @throws \Exception
- * 
+ *
  * @author Seven Du <shiweidu@outlook.com>
  */
 function includeFile($filename): bool
@@ -73,7 +73,6 @@ function includeFile($filename): bool
 
     if (! file_exists($filename)) {
         throw new \Exception('The "%s" does not exist.', 1);
-        
     }
 
     if (array_get($included, $filename, false) === false) {

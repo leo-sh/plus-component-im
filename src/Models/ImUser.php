@@ -2,8 +2,6 @@
 
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response as ImResponse;
 use Illuminate\Database\Eloquent\Model;
 
 class ImUser extends Model

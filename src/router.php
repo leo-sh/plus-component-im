@@ -14,4 +14,3 @@ Route::prefix('im/admin')
     ->middleware('web')
     ->namespace('Zhiyi\\Component\\ZhiyiPlus\\PlusComponentIm\\AdminControllers')
     ->group(component_base_path('routes/admin.php'));
-

@@ -116,7 +116,7 @@ class Service
                 break;
             }
         }
-        if (!$this->request_mod) {
+        if (! $this->request_mod) {
             $this->error = '该聊天服务不可用';
 
             return false;
@@ -176,7 +176,7 @@ class Service
     private function getRequestType(string $type_alias) : string
     {
         $type = '';
-        if (!$type_alias) {
+        if (! $type_alias) {
             return $type;
         }
         foreach ($this->response_type as $key => $value) {
@@ -202,7 +202,7 @@ class Service
     private function getRequestUrl() : string
     {
         $url = $this->service_urls['apis'][$this->request_mod] ?? '';
-        if (!$url) {
+        if (! $url) {
             return '';
         } else {
             $url .= $this->sub_request_url;
@@ -280,7 +280,7 @@ class Service
 
         // 处理请求的参数
         if (in_array($this->requset_method, ['get', 'delete'])) {
-            if (!empty($this->params)) {
+            if (! empty($this->params)) {
                 foreach ($this->params as $key => $value) {
                     $request_url .= '/'.$value;
                 }
