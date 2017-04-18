@@ -38,7 +38,7 @@ function asset_path($path)
  */
 function base_path($path = '')
 {
-    return dirname(__DIR__).$path;
+    return dirname(__DIR__).'/'.$path;
 }
 /**
  * Get the component name.
