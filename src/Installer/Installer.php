@@ -55,27 +55,6 @@ class Installer extends AbstractInstaller
     }
 
 	/**
-	 * component installer
-	 * @param  Closure $next [description]
-	 * @return [type]        [description]
-	 */
-	public function install(Closure $next)
-	{
-
-        $config = [
-            'name' => 'serverurl',
-            'namespace' => 'im',
-            'value' => '192.168.2.222:9900',
-        ];
-        CommonConfig::create($config);
-
-        $path = dirname(__DIR__);
-        include_once $path.'/Database/im_conversations_table.php';
-        include_once $path.'/Database/im_users_table.php';
-        $next();
-	}
-
-	/**
      * Do run update the compoent.
      *
      * @param Closure $next
