@@ -115,7 +115,7 @@ class Installer extends AbstractInstaller
     {
         $config = CommonConfig::byNamespace(static::$configNamespace)
             ->byName(static::$configName)
-            ->get();
+            ->first();
 
         if (! $config) {
             $config = new CommonConfig();
