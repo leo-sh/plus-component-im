@@ -7,14 +7,15 @@ use Zhiyi\Plus\Models\CommonConfig;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use function  Zhiyi\Component\ZhiyiPlus\PlusComponentIm\{
-    asset_path,
-    route_path,
-    resource_path,
-    base_path as component_base_path
+    base_path as component_base_path,
+    includeFile
 };
 
 class Installer extends AbstractInstaller
-{   
+{
+    protected static $configNamespace = 'im';
+    protected static $configName = 'serverurl';
+    protected static $configDefaultServiceURL = '127.0.0.1:9900';
 
     public function getComponentInfo()
     {
@@ -29,6 +30,29 @@ class Installer extends AbstractInstaller
 	{
 		return dirname(__DIR__).'/router.php';
 	}
+
+    /**
+     * The component install hook.
+     *
+     * @param Closure $next call back function
+     * @return void
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function install(Closure $next)
+    {
+        // Created IM config.
+        $this->setDefaultConfig();
+
+        // Created tables.
+        includeFile(component_base_path('tables/im_conversations_table.php'));
+        includeFile(component_base_path('tables/im_users_table.php'));
+
+        // Run next.
+        $next();
+
+        // Tips output.
+        $this->output->success('Installed the IM component successfully.');
+    }
 
 	/**
 	 * component installer
@@ -83,6 +107,30 @@ class Installer extends AbstractInstaller
     public function resource()
     {
         return component_base_path('/resource');
+    }
+
+    /**
+     * Setting default IM conging and created common config row.
+     *
+     * @throws \Exception
+     *
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    protected function setDefaultConfig()
+    {
+        $config = CommonConfig::byNamespace(static::$configNamespace)
+            ->byName(static::$configName)
+            ->get();
+
+        if (! $config) {
+            $config = new CommonConfig();
+            $config->namespace = static::$configNamespace;
+            $config->name = static::$configName;
+            $config->value = static::$configDefaultServiceURL;
+            if (! $config->save()) {
+                throw new \Exception('Init IM config row fial.');
+            }
+        }
     }
 
 }
