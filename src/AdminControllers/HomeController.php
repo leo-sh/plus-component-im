@@ -19,7 +19,7 @@ class HomeController extends Controller
         if (! $request->user()) {
             return redirect(route('admin'), 302);
         }
-        
+
         return view('admin');
     }
 }
