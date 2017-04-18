@@ -1,7 +1,11 @@
 <?php
+
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm;
+
 use function asset as plus_asset;
 use function view as plus_view;
+use function array_get;
+
 /**
  * Generate an asset path for the application.
  *
@@ -51,17 +55,7 @@ function component_name()
 {
     return 'zhiyicx/plus-component-im';
 }
-/**
- * Get the component route filename.
- *
- * @return string
- * @author Seven Du <shiweidu@outlook.com>
- * @homepage http://medz.cn
- */
-function route_path()
-{
-    return base_path('router.php');
-}
+
 /**
  * Get the component resource path.
  *
@@ -73,23 +67,29 @@ function resource_path()
 {
     return base_path('resource');
 }
+
 /**
- * Get the evaluated view contents for the given view.
+ * Include file.
  *
- * @param  string  $view
- * @param  array   $data
- * @param  array   $mergeData
- * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
- *
+ * @param string $filename file path
+ * @return bool
+ * @throws \Exception
+ * 
  * @author Seven Du <shiweidu@outlook.com>
- * @homepage http://medz.cn
  */
-function view($view = null, $data = [], $mergeData = [])
+function includeFile($filename): bool
 {
-    $factory = plus_view();
-    $factory->addLocation(base_path('view'));
-    if (func_num_args() === 0) {
-        return $factory;
+    static $included = [];
+
+    if (! file_exists($filename)) {
+        throw new \Exception('The "%s" does not exist.', 1);
+        
     }
-    return $factory->make($view, $data, $mergeData);
+
+    if (array_get($included, $filename, false) === false) {
+        include $filename;
+        $included[$filename] = true;
+    }
+
+    return true;
 }
