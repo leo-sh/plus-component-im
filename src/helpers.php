@@ -3,7 +3,6 @@
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm;
 
 use function asset as plus_asset;
-use function view as plus_view;
 use function array_get;
 
 /**
@@ -20,6 +19,7 @@ function asset($path, $secure = null)
     $path = asset_path($path);
     return plus_asset($path, $secure);
 }
+
 /**
  * Get The component resource asset path.
  *
@@ -32,6 +32,7 @@ function asset_path($path)
 {
     return component_name().'/'.$path;
 }
+
 /**
  * Get the component base path.
  *
@@ -44,6 +45,7 @@ function base_path($path = '')
 {
     return dirname(__DIR__).'/'.$path;
 }
+
 /**
  * Get the component name.
  *
@@ -54,18 +56,6 @@ function base_path($path = '')
 function component_name()
 {
     return 'zhiyicx/plus-component-im';
-}
-
-/**
- * Get the component resource path.
- *
- * @return string
- * @author Seven Du <shiweidu@outlook.com>
- * @homepage http://medz.cn
- */
-function resource_path()
-{
-    return base_path('resource');
 }
 
 /**
