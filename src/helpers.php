@@ -60,7 +60,7 @@ function component_name()
  */
 function route_path()
 {
-    return base_path('/router.php');
+    return base_path('router.php');
 }
 /**
  * Get the component resource path.
@@ -71,7 +71,7 @@ function route_path()
  */
 function resource_path()
 {
-    return base_path('/resource');
+    return base_path('resource');
 }
 /**
  * Get the evaluated view contents for the given view.
@@ -87,7 +87,7 @@ function resource_path()
 function view($view = null, $data = [], $mergeData = [])
 {
     $factory = plus_view();
-    $factory->addLocation(base_path('/view'));
+    $factory->addLocation(base_path('view'));
     if (func_num_args() === 0) {
         return $factory;
     }
