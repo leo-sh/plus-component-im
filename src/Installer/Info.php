@@ -9,46 +9,45 @@ use function Zhiyi\Component\ZhiyiPlus\PlusComponentIm\{
 class Info implements ComponentInfoInterface
 {
 	/**
-	 * 应用名称
-	 *  
-	 * @author bs<414606094@qq.com>
+	 * The component display name.
+	 *
 	 * @return string
+	 * @author Seven Du <shiweidu@outlook.com>
 	 */
 	public function getName(): string
 	{
-		return 'component-im';
+		return '即时通讯';
 	}
 
 	/**
-	 * 应用logo
-	 * 
-	 * @author bs<414606094@qq.com>
+	 * The component logo.
+	 *
 	 * @return string
+	 * @author Seven Du <shiweidu@outlook.com>
 	 */
 	public function getLogo(): string
 	{
-		return asset('resource/logo.png');
+		return asset('logo.png');
 	}
 
 	/**
-	 * 应用图标
-	 *  
-	 * @author bs<414606094@qq.com>
+	 * The component Admin manage row icon.
+	 *
 	 * @return string
+	 * @author Seven Du <shiweidu@outlook.com>
 	 */
 	public function getIcon(): string
 	{
-		return asset('resource/logo.png');
+		return asset('logo.png');
 	}
 
 	/**
-	 * 后台入口
-	 * 
-	 * @author bs<414606094@qq.com>
+	 * The component manage entry.
+	 *
 	 * @return string
+	 * @author Seven Du <shiweidu@outlook.com>
 	 */
 	public function getAdminEntry()
 	{
-		return 'http://www.baidu.com';
 	}
 }
