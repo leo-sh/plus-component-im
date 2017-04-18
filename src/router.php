@@ -9,3 +9,9 @@ Route::prefix('/api/v1/im')
     ->namespace('Zhiyi\\Component\\ZhiyiPlus\\PlusComponentIm\\Controllers')
     ->group(component_base_path('routes/api.php'));
 
+// Created IM manage routes.
+Route::prefix('im/admin')
+    ->middleware('web')
+    ->namespace('Zhiyi\\Component\\ZhiyiPlus\\PlusComponentIm\\AdminControllers')
+    ->group(component_base_path('routes/admin.php'));
+
