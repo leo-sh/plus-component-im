@@ -21,9 +21,9 @@ class Installer extends AbstractInstaller
      | "static::$configDefaultServiceURL" is component config row "value" default value.
      |
      */
-    protected static $configNamespace = 'im';
-    protected static $configName = 'serverurl';
-    protected static $configDefaultServiceURL = '127.0.0.1:9900';
+    public static $configNamespace = 'im';
+    public static $configName = 'serverurl';
+    public static $configDefaultServiceURL = '127.0.0.1:9900';
 
     /**
      * Instance The component Info class.
