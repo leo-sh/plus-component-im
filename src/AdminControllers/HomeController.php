@@ -22,4 +22,38 @@ class HomeController extends Controller
 
         return view('admin');
     }
+
+    /**
+     * 更新服务地址接口.
+     *
+     * @param Request $request
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+    public function update(Request $request)
+    {
+        $this->validate($request, $this->rules(), $this->validationErrorMessages());
+    }
+
+    /**
+     * Get the server validation rules.
+     *
+     * @return array
+     */
+    protected function rules(): array
+    {
+        return [
+            'server' => 'required',
+        ];
+    }
+
+    /**
+     * Get the server validation error messages.
+     *
+     * @return array
+     */
+    protected function validationErrorMessages(): array
+    {
+        return [];
+    }
 }

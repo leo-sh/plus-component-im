@@ -8,6 +8,11 @@
     <style type="text/css">@include('admin.style')</style>
 </head>
 <body>
-    <div></div>
+    <form role="form" method="POST" action="{{ route('im.manage.request') }}">
+        {{ csrf_field() }}
+        {{ method_field('PATCH') }}
+        <input type="text" name="server" placeholder="请输入聊天服务器地址" value="{{ old('server', '127.0.0.1:9900') }}" />
+        <button>提交</button>
+    </form>
 </body>
 </html>
