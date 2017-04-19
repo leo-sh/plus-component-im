@@ -5,8 +5,8 @@ namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\AdminControllers;
 use Illuminate\Http\Request;
 use Zhiyi\Plus\Models\CommonConfig;
 use Zhiyi\Plus\Http\Controllers\Controller;
-use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Installer\Installer;
 use function Zhiyi\Component\ZhiyiPlus\PlusComponentIm\view;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Installer\Installer;
 
 class HomeController extends Controller
 {
@@ -67,7 +67,7 @@ class HomeController extends Controller
     protected function reset(Request $request, CommonConfig $store)
     {
         $server = $request->input('server');
-        
+
         $status = $store->newQuery()
             ->byNamespace(Installer::$configNamespace)
             ->byName(Installer::$configName)
