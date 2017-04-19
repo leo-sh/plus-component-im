@@ -100,7 +100,6 @@ function includeFile($filename): bool
  */
 function view($view = null, $data = [], $mergeData = [])
 {
-
     static $factory;
 
     if (! $factory) {
