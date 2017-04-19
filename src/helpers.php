@@ -100,13 +100,18 @@ function includeFile($filename): bool
  */
 function view($view = null, $data = [], $mergeData = [])
 {
-    $finder = app(\Illuminate\View\FileViewFinder::class, [
-        'files' => app(\Illuminate\Filesystem\Filesystem::class),
-        'paths' => [base_path('views')],
-    ]);
 
-    $factory = app(\Illuminate\Contracts\View\Factory::class);
-    $factory->setFinder($finder);
+    static $factory;
+
+    if (! $factory) {
+        $finder = new \Illuminate\View\FileViewFinder(
+            app(\Illuminate\Filesystem\Filesystem::class),
+            [base_path('views')]
+        );
+
+        $factory = app(\Illuminate\Contracts\View\Factory::class);
+        $factory->setFinder($finder);
+    }
 
     if (func_num_args() === 0) {
         return $factory;
