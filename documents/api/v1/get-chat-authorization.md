@@ -27,6 +27,6 @@
 |im_password|string	  | yes		 |由IM服务器生成的登入token|
 
 ## 流程图
-![逻辑图](../../.images/api/IM聊天获取授权流程.png)
+![逻辑图](../../.images/api/access-authorization-process.png)
 
 code请参见[消息对照表](消息对照表.md)
