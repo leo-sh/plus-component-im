@@ -18,7 +18,7 @@
         ]
 	},
     "require": {
-        "zhiyicx/plus-install-plugin": "^1.0",
+        "zhiyicx/plus-install-plugin": "^1.1",
         "guzzlehttp/guzzle": "^6.2"
     },
     "extra": {
