@@ -2,14 +2,15 @@
 
 @section('title', '服务地址设置')
 
-
 @push('heads')
     <style type="text/css">@include('admin.style')</style>
 @endpush
 
 @section('content')
 
-    @include('layouts.header')
+    @include('layouts.header', [
+        'active' => 'serve'
+    ])
 
     <form role="form" method="POST" action="{{ route('im.manage.request') }}">
         {{ csrf_field() }}
