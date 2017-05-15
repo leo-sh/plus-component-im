@@ -2,15 +2,88 @@
 
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\AdminControllers;
 
-use Illuminate\Http\Request;
 use Zhiyi\Plus\Models\CommonConfig;
 use Zhiyi\Plus\Http\Controllers\Controller;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Request\StoreHelperPost;
 use function Zhiyi\Component\ZhiyiPlus\PlusComponentIm\view;
 
 class HelperController extends Controller
 {
     public function show()
     {
-        return view('helper');
+        return view('helper', [
+            'helpers' => $this->helpers(),
+        ]);
+    }
+
+    public function store(StoreHelperPost $request)
+    {
+        $uid = $request->input('uid');
+        $url = $request->input('url');
+
+        $helpers = $this->helpers();
+
+        if (($response = $this->repeat($request, $uid, $helpers)) === true) {
+            array_push($helpers, [
+                'uid' => $uid,
+                'url' => $url,
+            ]);
+
+            CommonConfig::byNamespace('common')->byName('im:helper')
+                ->update(['value' => json_encode($helpers)]);
+
+            return redirect()->back()
+                ->with('message', '添加成功');
+        }
+
+        return $response;
+    }
+
+    public function delete($uid)
+    {
+        $helpers = $this->helpers();
+
+        foreach ($helpers as $key => $helper) {
+            if ($helper['uid'] == $uid) {
+                unset($helpers[$key]);
+            }
+        }
+
+        CommonConfig::byNamespace('common')->byName('im:helper')
+                ->update(['value' => json_encode($helpers)]);
+
+        return redirect()->back()
+            ->with('message', '删除成功');
+    }
+
+    protected function repeat(StoreHelperPost $request, $uid, array $helpers = [])
+    {
+        foreach ($helpers as $helper) {
+            if ($helper['uid'] == $uid) {
+                return redirect()->back()
+                    ->withInput($request->only(['uid', 'url']))
+                    ->withErrors(['uid' => '添加的用户已经存在']);
+            }
+        }
+
+        return true;
+    }
+
+    protected function helpers()
+    {
+        $config = CommonConfig::byNamespace('common')->byName('im:helper')
+            ->select('value')
+            ->first();
+
+        if (! $config) {
+            $config = new CommonConfig();
+            $config->namespace = 'common';
+            $config->name = 'im:helper';
+            $config->value = json_encode([]);
+            $config->save();
+        }
+
+
+        return json_decode($config->value, true);
     }
 }

@@ -2,6 +2,7 @@
 
 @section('title', '服务地址设置')
 
+
 @push('heads')
     <style type="text/css">@include('admin.style')</style>
 @endpush
