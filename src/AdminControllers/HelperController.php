@@ -9,6 +9,12 @@ use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Request\StoreHelperPost;
 
 class HelperController extends Controller
 {
+    /**
+     * 助手设置页面.
+     *
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
     public function show()
     {
         return view('helper', [
@@ -16,6 +22,13 @@ class HelperController extends Controller
         ]);
     }
 
+    /**
+     * 添加助手.
+     *
+     * @param \Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Request\StoreHelperPost $request
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
     public function store(StoreHelperPost $request)
     {
         $uid = $request->input('uid');
@@ -39,6 +52,13 @@ class HelperController extends Controller
         return $response;
     }
 
+    /**
+     * 删除助手.
+     *
+     * @param string|int $uid
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
     public function delete($uid)
     {
         $helpers = $this->helpers();
@@ -56,6 +76,15 @@ class HelperController extends Controller
             ->with('message', '删除成功');
     }
 
+    /**
+     * 去重，判断助手是否已经存在.
+     *
+     * @param \Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Request\StoreHelperPost $request
+     * @param int|string $uid
+     * @param array $helpers
+     * @return mixed
+     * @author Seven Du <shiweidu@outlook.com>
+     */
     protected function repeat(StoreHelperPost $request, $uid, array $helpers = [])
     {
         foreach ($helpers as $helper) {
@@ -69,6 +98,12 @@ class HelperController extends Controller
         return true;
     }
 
+    /**
+     * 获取助手列表.
+     *
+     * @return array
+     * @author Seven Du <shiweidu@outlook.com>
+     */
     protected function helpers()
     {
         $config = CommonConfig::byNamespace('common')->byName('im:helper')
