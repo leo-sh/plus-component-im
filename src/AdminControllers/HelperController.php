@@ -4,8 +4,8 @@ namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\AdminControllers;
 
 use Zhiyi\Plus\Models\CommonConfig;
 use Zhiyi\Plus\Http\Controllers\Controller;
-use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Request\StoreHelperPost;
 use function Zhiyi\Component\ZhiyiPlus\PlusComponentIm\view;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Request\StoreHelperPost;
 
 class HelperController extends Controller
 {
@@ -82,7 +82,6 @@ class HelperController extends Controller
             $config->value = json_encode([]);
             $config->save();
         }
-
 
         return json_decode($config->value, true);
     }
