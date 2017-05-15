@@ -2,3 +2,7 @@
 	path = resource/bootstrap
 	url = https://github.com/twbs/bootstrap
 	branch = v3-dev
+[submodule "resource/jquery"]
+	path = resource/jquery
+	url = https://github.com/jquery/jquery
+	branch = 2.2-stable
