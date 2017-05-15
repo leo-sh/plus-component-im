@@ -1,0 +1,4 @@
+[submodule "resource/bootstrap"]
+	path = resource/bootstrap
+	url = https://github.com/twbs/bootstrap
+	branch = v3-dev
