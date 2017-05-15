@@ -69,6 +69,8 @@ class HelperController extends Controller
             }
         }
 
+        $helpers = array_values($helpers);
+
         CommonConfig::byNamespace('common')->byName('im:helper')
                 ->update(['value' => json_encode($helpers)]);
 
@@ -118,6 +120,8 @@ class HelperController extends Controller
             $config->save();
         }
 
-        return json_decode($config->value, true);
+        return array_values(
+            json_decode($config->value, true) ?: []
+        );
     }
 }
