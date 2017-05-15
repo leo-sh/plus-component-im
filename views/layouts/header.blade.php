@@ -1,5 +1,8 @@
 <ul class="nav nav-tabs app-header">
-  <li role="presentation" class="active"><a href="#">Home</a></li>
-  <li role="presentation"><a href="#">Profile</a></li>
-  <li role="presentation"><a href="#">Messages</a></li>
+    <li role="serve" class="active">
+        <a href="#">聊天服务器</a>
+    </li>
+    <li role="users">
+        <a href="#">助手设置</a>
+    </li>
 </ul>
