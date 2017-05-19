@@ -92,6 +92,7 @@ class Installer extends AbstractInstaller
     {
         Schema::dropIfExists('im_users');
         Schema::dropIfExists('im_conversations');
+        CommonConfig::byNamespace(static::$configNamespace)->where('name', 'like', 'im:%')->delete();
         $next();
     }
 
