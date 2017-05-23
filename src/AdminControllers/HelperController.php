@@ -2,10 +2,14 @@
 
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\AdminControllers;
 
+use Zhiyi\Plus\Models\User;
 use Zhiyi\Plus\Models\CommonConfig;
 use Zhiyi\Plus\Http\Controllers\Controller;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImUser;
 use function Zhiyi\Component\ZhiyiPlus\PlusComponentIm\view;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Installer\Installer;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Request\StoreHelperPost;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Service\IM\Service as ImService;
 
 class HelperController extends Controller
 {
@@ -44,6 +48,8 @@ class HelperController extends Controller
 
             CommonConfig::byNamespace('common')->byName('im:helper')
                 ->update(['value' => json_encode($helpers)]);
+
+            $this->checkImToken($uid);
 
             return redirect()->back()
                 ->with('message', '添加成功');
@@ -123,5 +129,52 @@ class HelperController extends Controller
         return array_values(
             json_decode($config->value, true) ?: []
         );
+    }
+
+    /**
+     * 验证助手Im账户.
+     *
+     * @author bs<414606094@qq.com>
+     */
+    protected function checkImToken($uid): bool
+    {
+        if (! ImUser::where('user_id', $uid)->first()) {
+            $this->addImUser($uid);
+        }
+
+        return true;
+    }
+
+    /**
+     * 添加im账户.
+     *
+     * @author bs<414606094@qq.com>
+     */
+    protected function addImUser($uid)
+    {
+        $config = CommonConfig::byNamespace(Installer::$configNamespace)
+            ->byName(Installer::$configName)
+            ->first();
+        $service = [
+            'base_url' => 'http://'.$config->value,
+        ];
+
+        $user = User::find($uid);
+
+        $ImService = new ImService($service);
+        $res = $ImService->usersPost(['uid' => $user->id, 'name' => $user->name]);
+        // 处理返回
+        if ($res['code'] == 201) {
+            // 注册成功,保存本地用户
+            $data = [
+                'user_id' => $user->id,
+                'im_password' => $res['data']['token'],
+            ];
+            $data = ImUser::create($data);
+
+            return true;
+        }
+
+        return false;
     }
 }
