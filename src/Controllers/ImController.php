@@ -20,7 +20,7 @@ class ImController extends Controller
      */
     public function __construct()
     {
-        $imserviceconfig = CommonConfig::where('namespace', 'im')->where('name', 'serverurl')->first();
+        $imserviceconfig = CommonConfig::where('namespace', 'common')->where('name', 'im:serve')->first();
 
         $this->config = [
             'base_url' => 'http://'.$imserviceconfig->value,
