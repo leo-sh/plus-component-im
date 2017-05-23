@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Zhiyi\Plus\Models\CommonConfig;
 use Zhiyi\Plus\Http\Controllers\Controller;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImUser;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Installer\Installer;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImConversation;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Service\IM\Service as ImService;
 
@@ -20,7 +21,7 @@ class ImController extends Controller
      */
     public function __construct()
     {
-        $imserviceconfig = CommonConfig::where('namespace', 'common')->where('name', 'im:serve')->first();
+        $imserviceconfig = CommonConfig::byNamespace(Installer::$configNamespace)->byName(Installer::$configName)->first();
 
         $this->config = [
             'base_url' => 'http://'.$imserviceconfig->value,
