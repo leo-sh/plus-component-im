@@ -3,6 +3,8 @@
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Installer;
 
 use Closure;
+use Carbon\Carbon;
+use Zhiyi\Plus\Models\Permission;
 use Zhiyi\Plus\Models\CommonConfig;
 use Illuminate\Support\Facades\Schema;
 use Zhiyi\Component\Installer\PlusInstallPlugin\AbstractInstaller;
@@ -63,6 +65,19 @@ class Installer extends AbstractInstaller
         includeFile(component_base_path('tables/im_conversations_table.php'));
         includeFile(component_base_path('tables/im_users_table.php'));
 
+        // Created permisson
+        $time = Carbon::now();
+
+        Permission::insert([
+            [
+                'name' => 'im-create',
+                'display_name' => '创建聊天',
+                'description' => '用户聊天权限',
+                'created_at' => $time,
+                'updated_at' => $time,
+            ],
+        ]);
+
         // Run next.
         $next();
 
@@ -93,6 +108,7 @@ class Installer extends AbstractInstaller
         Schema::dropIfExists('im_users');
         Schema::dropIfExists('im_conversations');
         CommonConfig::byNamespace(static::$configNamespace)->where('name', 'like', 'im:%')->delete();
+        Permission::whereIn('name', ['im-create'])->delete();
         $next();
     }
 
