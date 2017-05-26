@@ -35,7 +35,7 @@ class HelperController extends Controller
      */
     public function store(StoreHelperPost $request)
     {
-        $uid = $request->input('uid');
+        $uid = intval($request->input('uid'));
         $url = $request->input('url');
 
         $helpers = $this->helpers();
