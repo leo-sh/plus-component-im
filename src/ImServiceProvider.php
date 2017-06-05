@@ -2,6 +2,7 @@
 
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm;
 
+use Zhiyi\Plus\Support\PackageHandler;
 use Illuminate\Support\ServiceProvider;
 
 class ImServiceProvider extends ServiceProvider
@@ -26,5 +27,8 @@ class ImServiceProvider extends ServiceProvider
         $this->publishes([
             dirname(__DIR__).'/asstes' => $this->app->publicPath().'/zhiyi/im',
         ], 'public');
+
+        // Register handler.
+        PackageHandler::loadHandleFrom('im', ImPackageHandler::class);
     }
 }
