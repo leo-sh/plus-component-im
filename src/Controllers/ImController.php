@@ -21,7 +21,7 @@ class ImController extends Controller
      */
     public function __construct()
     {
-        $imserviceconfig = CommonConfig::byNamespace(Installer::$configNamespace)->byName(Installer::$configName)->first();
+        $imserviceconfig = CommonConfig::byNamespace('common')->byName('im:serve')->first();
 
         $this->config = [
             'base_url' => 'http://'.$imserviceconfig->value,
