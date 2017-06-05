@@ -1,8 +1,8 @@
 <?php
 
+use Zhiyi\Plus\Models\Permission;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Zhiyi\Plus\Models\Permission;
 
 if (! Schema::hasTable('im_conversations')) {
     Schema::create('im_conversations', function (Blueprint $table) {
@@ -32,5 +32,5 @@ if (! Schema::hasTable('im_users')) {
 }
 
 Permission::insert([
-    ['name' => 'im-create', 'display_name' => '创建聊天', 'description' => '用户创建聊天权限']
+    ['name' => 'im-create', 'display_name' => '创建聊天', 'description' => '用户创建聊天权限'],
 ]);
