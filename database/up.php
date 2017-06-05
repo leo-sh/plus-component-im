@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Zhiyi\Plus\Models\Permission;
 
-if (! Schema::hasTable('im_conversations', 'data')) {
+if (! Schema::hasTable('im_conversations')) {
     Schema::create('im_conversations', function (Blueprint $table) {
         $table->engine = 'InnoDB';
         $table->increments('id')->comment('对话表表ID');
@@ -17,3 +18,19 @@ if (! Schema::hasTable('im_conversations', 'data')) {
         $table->timestamps();
     });
 }
+
+if (! Schema::hasTable('im_users')) {
+    Schema::create('im_users', function (Blueprint $table) {
+        $table->engine = 'InnoDB';
+        $table->increments('id')->comment('表ID');
+        $table->integer('user_id')->unique()->nullable()->default(0)->comment('用户ID');
+        $table->string('im_password')->nullable()->default(null)->comment('聊天用户登陆的密码');
+        $table->tinyInteger('is_disabled')->nullable()->default(0)->comment('是否被禁用,1:是 0:否');
+        $table->timestamps();
+        $table->softDeletes();
+    });
+}
+
+Permission::insert([
+    ['name' => 'im-create', 'display_name' => '创建聊天', 'description' => '用户创建聊天权限']
+]);
