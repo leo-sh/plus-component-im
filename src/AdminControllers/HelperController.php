@@ -5,7 +5,6 @@ namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\AdminControllers;
 use Zhiyi\Plus\Models\User;
 use Zhiyi\Plus\Models\CommonConfig;
 use Zhiyi\Plus\Http\Controllers\Controller;
-use function Zhiyi\Component\ZhiyiPlus\PlusComponentIm\view;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImUser;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Installer\Installer;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Request\StoreHelperPost;
@@ -21,7 +20,7 @@ class HelperController extends Controller
      */
     public function show()
     {
-        return view('helper', [
+        return view('component-im::helper', [
             'helpers' => $this->helpers(),
         ]);
     }

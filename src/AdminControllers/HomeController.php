@@ -5,7 +5,6 @@ namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\AdminControllers;
 use Illuminate\Http\Request;
 use Zhiyi\Plus\Models\CommonConfig;
 use Zhiyi\Plus\Http\Controllers\Controller;
-use function Zhiyi\Component\ZhiyiPlus\PlusComponentIm\view;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Installer\Installer;
 
 class HomeController extends Controller
@@ -22,7 +21,7 @@ class HomeController extends Controller
             return redirect(route('admin'), 302);
         }
 
-        return view('admin', ['server' => $this->serverStore()->value]);
+        return view('component-im::admin', ['server' => $this->serverStore()->value]);
     }
 
     /**
