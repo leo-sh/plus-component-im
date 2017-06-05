@@ -1,15 +1,15 @@
-@extends('layouts.app')
+@extends('component-im::layouts.app')
 
 @section('title', '服务地址设置')
 
 
 @push('heads')
-    <style type="text/css">@include('admin.style')</style>
+    <style type="text/css">@include('component-im::admin.style')</style>
 @endpush
 
 @section('content')
 
-    @include('layouts.header', [
+    @include('component-im::layouts.header', [
         'active' => 'serve'
     ])
 

@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('component-im::layouts.app')
 
 @section('title', '助手设置')
 
 @section('content')
 
-    @include('layouts.header', [
+    @include('component-im::layouts.header', [
         'active' => 'helper'
     ])
 
