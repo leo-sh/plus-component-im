@@ -6,6 +6,12 @@ use Illuminate\Support\ServiceProvider;
 
 class ImServiceProvider extends ServiceProvider
 {
+    /**
+     * Boorstrap the provider.
+     *
+     * @return void
+     * @author Seven Du <shiweidu@outlook.com>
+     */
     public function boot()
     {
         // Load routes.
