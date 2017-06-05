@@ -15,6 +15,10 @@ class ImPackageHandler extends PackageHandler
      */
     public function installHandle($command)
     {
+        if (! $command->confirm('Are you sure you want to add')) {
+            return;
+        }
+
         // database up.
         include dirname(__DIR__).'/database/up.php';
 
@@ -37,6 +41,9 @@ class ImPackageHandler extends PackageHandler
      */
     public function removeHandle($command)
     {
+        if (! $command->confirm('Is it removed')) {
+            return;
+        }
         include dirname(__DIR__).'/database/down.php';
         $command->info('success.');
     }
