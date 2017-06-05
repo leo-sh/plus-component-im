@@ -1,7 +1,6 @@
 {
     "name": "zhiyicx/plus-component-im",
     "description": "💌ThinkSNS+ 即时聊天应用拓展。",
-    "type": "plus-component",
     "license": "Apache-2",
     "authors": [
         {
@@ -24,7 +23,8 @@
     },
     "extra": {
         "laravel": {
-            "providesr": "Zhiyi\\Component\\ZhiyiPlus\\PlusComponentIm\\ImServiceProvider"
+            "providers": "Zhiyi\\Component\\ZhiyiPlus\\PlusComponentIm\\ImServiceProvider"
         }
-	}
+	},
+    "version": "2.0.0"
 }
