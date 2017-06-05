@@ -15,7 +15,16 @@ class ImPackageHandler extends PackageHandler
      */
     public function installHandle($command)
     {
+        // database up.
         include dirname(__DIR__).'/database/up.php';
+
+        // publish asstes.
+        $command->call('vendor:publish', [
+            '--provider' => ImServiceProvider::class,
+            '--tag' => 'public',
+            '--force' => true,
+        ]);
+
         $command->info('Installed the IM component successfully.');
     }
 
