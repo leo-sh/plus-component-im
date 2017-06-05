@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Zhiyi\Plus\Models\CommonConfig;
 use Zhiyi\Plus\Http\Controllers\Controller;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImUser;
-use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Installer\Installer;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImConversation;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Service\IM\Service as ImService;
 
