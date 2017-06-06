@@ -4,11 +4,12 @@ namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm;
 
 use Zhiyi\Plus\Support\PackageHandler;
 use Illuminate\Support\ServiceProvider;
+use Zhiyi\Plus\Support\ManageRepository;
 
 class ImServiceProvider extends ServiceProvider
 {
     /**
-     * Boorstrap the provider.
+     * Bootstrap the provider.
      *
      * @return void
      * @author Seven Du <shiweidu@outlook.com>
@@ -30,5 +31,15 @@ class ImServiceProvider extends ServiceProvider
 
         // Register handler.
         PackageHandler::loadHandleFrom('im', ImPackageHandler::class);
+    }
+
+    public function register()
+    {
+        if ($this->app->config['im.open']) {
+            $this->app->make(ManageRepository::class)->loadManageFrom('即时通讯', 'im:admin', [
+                'route' => true,
+                'icon' => 'IM',
+            ]);
+        }
     }
 }
