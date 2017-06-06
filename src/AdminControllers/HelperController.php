@@ -6,9 +6,9 @@ use Zhiyi\Plus\Models\User;
 use Zhiyi\Plus\Models\CommonConfig;
 use Zhiyi\Plus\Http\Controllers\Controller;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Models\ImUser;
-use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Installer\Installer;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Request\StoreHelperPost;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Service\IM\Service as ImService;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Repository\ImServe as ImServeRepostory;
 
 class HelperController extends Controller
 {
@@ -64,7 +64,7 @@ class HelperController extends Controller
      * @return mixed
      * @author Seven Du <shiweidu@outlook.com>
      */
-    public function delete($uid)
+    public function delete(int $uid)
     {
         $helpers = $this->helpers();
 
@@ -151,16 +151,9 @@ class HelperController extends Controller
      */
     protected function addImUser($uid)
     {
-        $config = CommonConfig::byNamespace(Installer::$configNamespace)
-            ->byName(Installer::$configName)
-            ->first();
-        $service = [
-            'base_url' => 'http://'.$config->value,
-        ];
-
         $user = User::find($uid);
 
-        $ImService = new ImService($service);
+        $ImService = new ImService(['base_url' => 'http://'.app(ImServeRepostory::class)->get()]);
         $res = $ImService->usersPost(['uid' => $user->id, 'name' => $user->name]);
         // 处理返回
         if ($res['code'] == 201) {
