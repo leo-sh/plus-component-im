@@ -62,7 +62,7 @@ class HomeController extends Controller
     protected function validationErrorMessages(): array
     {
         return [
-            'serve.required' => '请输入服务器地址'
+            'serve.required' => '请输入服务器地址',
         ];
     }
 }

@@ -36,6 +36,7 @@ class ImPackageHandler extends PackageHandler
     {
         if (config('im.open', false)) {
             $command->error('You have installed it.');
+
             return;
         }
 
@@ -69,6 +70,7 @@ class ImPackageHandler extends PackageHandler
     {
         if (! config('im.open', false)) {
             $command->error('You have not installed yet.');
+
             return;
         }
 
