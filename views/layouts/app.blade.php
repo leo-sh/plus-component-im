@@ -12,7 +12,7 @@
     @stack('heads')
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
     @yield('content')
 </div>
 <script src="{{ asset('zhiyi/im/bootstrap/js/bootstrap.min.js') }}"></script>
