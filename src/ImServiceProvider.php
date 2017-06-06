@@ -33,6 +33,12 @@ class ImServiceProvider extends ServiceProvider
         PackageHandler::loadHandleFrom('im', ImPackageHandler::class);
     }
 
+    /**
+     * Register the provider.
+     *
+     * @return void
+     * @author Seven Du <shiweidu@outlook.com>
+     */
     public function register()
     {
         if ($this->app->config['im.open']) {
