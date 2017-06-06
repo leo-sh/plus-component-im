@@ -3,9 +3,8 @@
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\AdminControllers;
 
 use Illuminate\Http\Request;
-use Zhiyi\Plus\Models\CommonConfig;
 use Zhiyi\Plus\Http\Controllers\Controller;
-use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Installer\Installer;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Repository\ImServe as ImServeRepostory;
 
 class HomeController extends Controller
 {
@@ -15,13 +14,13 @@ class HomeController extends Controller
      * @return mixed
      * @author Seven Du <shiweidu@outlook.com>
      */
-    public function show(Request $request)
+    public function show(Request $request, ImServeRepostory $repostiory)
     {
         if (! $request->user()) {
             return redirect(route('admin'), 302);
         }
 
-        return view('component-im::admin', ['server' => $this->serverStore()->value]);
+        return view('component-im::admin', ['serve' => $repostiory->get()]);
     }
 
     /**
@@ -31,92 +30,39 @@ class HomeController extends Controller
      * @return mixed
      * @author Seven Du <shiweidu@outlook.com>
      */
-    public function update(Request $request)
+    public function update(Request $request, ImServeRepostory $repostiory)
     {
         $this->validate($request, $this->rules(), $this->validationErrorMessages());
 
-        $response = $this->reset($request, $this->serverStore());
+        $repostiory->store(
+            $request->input('serve')
+        );
 
-        return $response === true
-            ? $this->sendResetResponse()
-            : $this->sendResetFailedResponse($request);
-    }
-
-    protected function sendResetResponse()
-    {
         return redirect()->back()
             ->with('message', '更新成功');
     }
 
-    protected function sendResetFailedResponse(Request $request)
-    {
-        return redirect()->back()
-            ->withInput($request->only('server'))
-            ->withErrors(['server' => '更新失败']);
-    }
-
     /**
-     * reset the config row value.
-     *
-     * @param Request $request
-     * @param CommonConfig $store
-     * @return bool
-     * @author Seven Du <shiweidu@outlook.com>
-     */
-    protected function reset(Request $request, CommonConfig $store)
-    {
-        $server = $request->input('server');
-
-        $status = $store->newQuery()
-            ->byNamespace(Installer::$configNamespace)
-            ->byName(Installer::$configName)
-            ->update(['value' => $server]);
-
-        return (bool) $status;
-    }
-
-    /**
-     * Get the server validation rules.
+     * Get the serve validation rules.
      *
      * @return array
      */
     protected function rules(): array
     {
         return [
-            'server' => 'required',
+            'serve' => 'required',
         ];
     }
 
     /**
-     * Get the server validation error messages.
+     * Get the serve validation error messages.
      *
      * @return array
      */
     protected function validationErrorMessages(): array
     {
-        return [];
-    }
-
-    /**
-     * Get the config row store.
-     *
-     * @return \Zhiyi\Plus\Models\CommonConfig
-     * @author Seven Du <shiweidu@outlook.com>
-     */
-    protected function serverStore(): CommonConfig
-    {
-        $server = CommonConfig::byNamespace(Installer::$configNamespace)
-            ->byName(Installer::$configName)
-            ->first();
-
-        if (! $server) {
-            $server = new CommonConfig();
-            $server->namespace = Installer::$configNamespace;
-            $server->name = Installer::$configName;
-            $server->value = Installer::$configDefaultServiceURL;
-            $server->save();
-        }
-
-        return $server;
+        return [
+            'serve.required' => '请输入服务器地址'
+        ];
     }
 }
