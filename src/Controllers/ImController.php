@@ -123,7 +123,11 @@ class ImController extends Controller
         }
         $res = $ImService->conversationsPost($conversations);
         if ($res['code'] != '201') {
-            return $this->returnMessage(3005, [], 422);
+            return response()->json(static::createJsonData([
+                'code' => 3005,
+                'status' => false,
+                'message' => '会话成员没有聊天授权',
+            ]))->setStatusCode(422);
         } else {
             // 保存会话
             $addConversation = [
