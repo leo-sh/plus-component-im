@@ -14,7 +14,8 @@ class ImConversation extends Model
     protected $table = 'im_conversations';
 
     /**
-     * 定义允许更新的字段.
+     * 定义�
+     * �许更新的字段.
      *
      * @var array
      */

@@ -14,7 +14,8 @@ class ImController extends Controller
     protected $config;
 
     /**
-     * 初始化服务器配置.
+     * 初始化服务器�
+     * �置.
      *
      * @var string
      */

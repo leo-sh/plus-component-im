@@ -21,7 +21,8 @@ class Service
     protected $error = '';
 
     /**
-     * 定义im服务器的相关请求链接.
+     * 定义im服务器的相�
+     * �请求链接.
      *
      * @var array
      */
@@ -306,7 +307,8 @@ class Service
      * @version  1.0
      *
      * @param int          $type 聊天会话类型
-     * @param string|array $uids 默认加入聊天的用户uid组
+     * @param string|array $uids 默认加�
+     * �聊天的用户uid组
      *
      * @return bool 是否合法
      */
