@@ -4,8 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/users', 'ImController@getImAccount'); //获取聊天授权账号
-    Route::post('/conversations', 'ImController@createConversations')
-    ->middleware('role-permissions:im-create,你没有聊天的权限'); //创建聊天
+    Route::post('/conversations', 'ImController@createConversations');
     Route::get('/conversations/{cid}', 'ImController@getConversation'); //获取单个聊天信息
     Route::get('/conversations/list/all', 'ImController@getConversationList'); //获取某个用户聊天列表
     Route::patch('/users', 'ImController@refresh'); //刷新授权
