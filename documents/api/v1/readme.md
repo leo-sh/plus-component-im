@@ -16,7 +16,6 @@
 
 ## V2 版本接口
 
-- [聊天授权说明](/documents/api/v2/description.md)
 - [获取聊天授权信息](/documents/api/v2/get-chat-authorization.md)
 - [创建对话](/documents/api/v2/create-conversation.md)
 - [获取单个对话信息](/documents/api/v2/get-single-conversation.md)
