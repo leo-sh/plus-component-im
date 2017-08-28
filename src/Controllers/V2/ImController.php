@@ -106,7 +106,7 @@ class ImController extends Controller
             if ($info) {
                 $info = $info->toArray();
 
-                return response()->json($info, 200);
+                return response()->json($info, 201);
             }
         }
 
@@ -146,7 +146,7 @@ class ImController extends Controller
             $info = ImConversation::create($addConversation);
             $info = $info->toArray();
 
-            return response()->json($info, 200);
+            return response()->json($info, 201);
         }
     }
 
@@ -219,7 +219,7 @@ class ImController extends Controller
                 if ($res['code'] == 204) {
                     $info->delete();
 
-                    return response()->json(['cid' => $cid], 200);
+                    return response()->json(['cid' => $cid], 404);
                 }
 
                 return response()->json([
@@ -269,7 +269,7 @@ class ImController extends Controller
 
                 return response()->json([
                     'cid' => $cid,
-                ], 200);
+                ], 201);
             } else {
                 return response()->json([
                     'message' => ['退出对话操作失败'],
@@ -322,7 +322,7 @@ class ImController extends Controller
                 return response()->json([
                     'cid' => $cid,
                     'uid' => $uid,
-                ], 200);
+                ], 204);
             } else {
                 return response()->json([
                     'message' => ['移除对话成员失败'],
@@ -381,7 +381,7 @@ class ImController extends Controller
             // 退出指定对话
             $res = $ImService->limitedPost($postData);
             if ($res['code'] == 201) {
-                return response()->json($postData, 200);
+                return response()->json($postData, 201);
             }
 
             return response()->json([
@@ -437,7 +437,7 @@ class ImController extends Controller
             // 退出指定对话
             $res = $ImService->limitedDelete($postData, '/{uid}');
             if ($res['code'] == 204) {
-                return response()->json($postData, 200);
+                return response()->json($postData, 204);
             }
 
             return response()->json([
@@ -477,7 +477,7 @@ class ImController extends Controller
                 $data->im_password = $res['data']['token'];
                 $data->save();
 
-                return response()->json($data->toArray(), 200);
+                return response()->json($data->toArray(), 201);
             } else {
                 // 返回错误
                 return response()->json([
