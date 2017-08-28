@@ -66,8 +66,8 @@ class ImController extends Controller
             return response()->json($data, 200);
         } else {
             return response()->json([
-                'message' => ['操作失败']
-            ] ,422);
+                'message' => ['操作失败'],
+            ], 422);
         }
     }
 
@@ -170,7 +170,7 @@ class ImController extends Controller
 
             return response()->json($info, 200);
         }
-        
+
         return response()->json([], 404);
     }
 
@@ -439,6 +439,7 @@ class ImController extends Controller
             if ($res['code'] == 204) {
                 return response()->json($postData, 200);
             }
+
             return response()->json([
                 'message' => ['操作限制对话成员失败'],
             ])->setStatusCode(422);
