@@ -23,7 +23,9 @@
     },
     "extra": {
         "laravel": {
-            "providers": "Zhiyi\\Component\\ZhiyiPlus\\PlusComponentIm\\ImServiceProvider"
+            "providers": [
+                "Zhiyi\\Component\\ZhiyiPlus\\PlusComponentIm\\ImServiceProvider"
+            ] 
         }
 	}
 }
