@@ -26,7 +26,7 @@ class ImServiceProvider extends ServiceProvider
 
         // publish asstes
         $this->publishes([
-            dirname(__DIR__).'/asstes' => $this->app->publicPath().'/zhiyi/im',
+            dirname(__DIR__).'/assets' => $this->app->publicPath().'/assets/im',
         ], 'public');
 
         // Register handler.
