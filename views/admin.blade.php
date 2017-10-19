@@ -18,12 +18,21 @@
 
                 <!-- 服务器地址表单 -->
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">地址</label>
+                    <label class="col-sm-2 control-label">聊天服务器地址</label>
                     <div class="col-sm-4">
                         <input class="form-control" name="serve" type="text" placeholder="请输入聊天服务器地址" value="{{ old('serve', $serve) }}">
                     </div>
                     <span class="col-sm-6 help-block">
-                        输入聊天服务器的连接地址，例如默认的「127.0.0.1:9900」。输入的服务器不存在或者错误，将会造成 app 等客户端的运行异常。
+                        输入聊天服务器的连接地址，例如默认的「ws://127.0.0.1:9900」。输入的服务器不存在或者错误，将会造成 app 等客户端的运行异常。
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">接口请求地址</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" name="api" type="text" placeholder="请输入接口请求地址" value="{{ old('api', $api) }}">
+                    </div>
+                    <span class="col-sm-6 help-block">
+                        输入服务器的接口请求地址，例如默认的「http://127.0.0.1:9900」，ip与端口一般与聊天服务器地址一致。
                     </span>
                 </div>
 

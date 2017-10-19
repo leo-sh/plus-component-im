@@ -20,16 +20,10 @@ class ImController extends Controller
      */
     public function __construct()
     {
-        $imserviceconfig = CommonConfig::byNamespace('common')->byName('im:serve')->first();
-
-        $http = 'http://';
-
-        if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] === 1 || $_SERVER['HTTPS'] === 'on' || $_SERVER['SERVER_PORT'] == 443)) {
-            $http = 'https://';
-        }
+        $imserviceconfig = CommonConfig::byNamespace('common')->byName('im:api')->first();
 
         $this->config = [
-            'base_url' => $http.$imserviceconfig->value,
+            'base_url' => $imserviceconfig->value,
         ];
     }
 

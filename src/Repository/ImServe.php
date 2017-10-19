@@ -31,20 +31,30 @@ class ImServe
      * @return string
      * @author Seven Du <shiweidu@outlook.com>
      */
-    public function get(): string
+    public function get(): array
     {
         if ($this->cache->has($this->cacheKey())) {
             return $this->cache->get($this->cacheKey());
         }
 
-        $model = CommonConfig::firstOrCreate(
+        $serve = CommonConfig::firstOrCreate(
             ['name' => 'im:serve', 'namespace' => 'common'],
-            ['value' => '120.0.0.1:9900']
+            ['value' => 'ws://127.0.0.1:9900']
         );
 
-        $this->cache->forever($this->cacheKey(), $serve = strval($model->value));
+        $api = CommonConfig::firstOrCreate(
+            ['name' => 'im:api', 'namespace' => 'common'],
+            ['value' => 'http://127.0.0.1:9900']
+        );
 
-        return $serve;
+        $data = [
+            'serve' => strval($serve->value),
+            'api' => strval($api->value),
+        ];
+
+        $this->cache->forever($this->cacheKey(), $data);
+
+        return $data;
     }
 
     /**
@@ -54,15 +64,25 @@ class ImServe
      * @return void|null
      * @author Seven Du <shiweidu@outlook.com>
      */
-    public function store(string $serve)
+    public function store(string $serve, string $api)
     {
         CommonConfig::updateOrCreate(
             ['name' => 'im:serve', 'namespace' => 'common'],
             ['value' => $serve]
         );
 
+        CommonConfig::updateOrCreate(
+            ['name' => 'im:api', 'namespace' => 'common'],
+            ['value' => $api]
+        );
+
+        $data = [
+            'serve' => strval($serve),
+            'api' => strval($api),
+        ];
+
         $this->flush();
-        $this->cache->forever($this->cacheKey(), $serve);
+        $this->cache->forever($this->cacheKey(), $data);
     }
 
     /**

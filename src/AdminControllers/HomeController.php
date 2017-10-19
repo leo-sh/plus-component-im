@@ -3,6 +3,7 @@
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentIm\AdminControllers;
 
 use Illuminate\Http\Request;
+use Zhiyi\Plus\Models\CommonConfig;
 use Zhiyi\Plus\Http\Controllers\Controller;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentIm\Repository\ImServe as ImServeRepostory;
 
@@ -20,7 +21,7 @@ class HomeController extends Controller
             return redirect(route('admin'), 302);
         }
 
-        return view('component-im::admin', ['serve' => $repostiory->get()]);
+        return view('component-im::admin', $repostiory->get());
     }
 
     /**
@@ -35,7 +36,8 @@ class HomeController extends Controller
         $this->validate($request, $this->rules(), $this->validationErrorMessages());
 
         $repostiory->store(
-            $request->input('serve')
+            $request->input('serve'),
+            $request->input('api')
         );
 
         return redirect()->back()
@@ -51,6 +53,7 @@ class HomeController extends Controller
     {
         return [
             'serve' => 'required',
+            'api' => 'required',
         ];
     }
 
@@ -63,6 +66,7 @@ class HomeController extends Controller
     {
         return [
             'serve.required' => '请输入服务器地址',
+            'api.required' => '请输入接口地址',
         ];
     }
 }
