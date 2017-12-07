@@ -66,7 +66,7 @@ class ImController extends Controller
             return response()->json($data, 200);
         } else {
             return response()->json([
-                'message' => ['操作失败'],
+                'message' => $res ?? ['操作失败'],
             ], 422);
         }
     }
@@ -130,7 +130,7 @@ class ImController extends Controller
         $res = $ImService->conversationsPost($conversations);
         if ($res['code'] != '201') {
             return response()->json([
-                'message' => ['会话成员没有聊天授权'],
+                'message' => $res,
             ])->setStatusCode(422);
         } else {
             // 保存会话
